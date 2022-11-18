@@ -1,0 +1,114 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords" content="web analytics, google analytics alternative, ingesting events, openapi, public api, privacy-friendly analytics, cookieless web analytics">
+    <meta name="description" content="Wide Angle Analytics Events API OpenAPI Specification. Send events to the analytics platform from your backend. Build a custom ingestion pipeline." />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@FromWideAngle">
+    <meta name="twitter:title" content="Wide Angle Analytics - Public API - Preview">
+    <meta name="twitter:creator" content="@FromWideAngle">
+    <meta name="twitter:url" content="https://inputobjects.github.io/wideangle-api/">
+    <meta name="twitter:description" content="Wide Angle Analytics Events API OpenAPI Specification. Send events to the analytics platform from your backend. Build a custom ingestion pipeline.">
+    <meta name="twitter:image:src" content="https://inputobjects.github.io/wideangle-api/assets/images/cover.png">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:title" content="Wide Angle Analytics - Public API - Preview">
+    <meta property="og:description" content="Wide Angle Analytics Events API OpenAPI Specification. Send events to the analytics platform from your backend. Build a custom ingestion pipeline.">
+    <meta property="og:image" content="https://inputobjects.github.io/wideangle-api/assets/images/cover.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:url" content="https://inputobjects.github.io/wideangle-api/">
+    <meta property="og:type" content="website">
+    <title>Wide Angle Analytics - Public API - Preview</title>
+    <link rel="stylesheet" href="swagger/swagger-ui.css" />
+    <link rel="stylesheet" href="assets/styles/tailwind.min.css" />
+    <style  type="text/css" media="screen">
+      @font-face {
+        font-family: "Montserrat";
+        src: url('assets/fonts/Montserrat-VariableFont_wght.woff2');
+        font-style: normal;
+        font-weight: 100;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url('assets/fonts/Montserrat-VariableFont_wght.woff2');
+        font-style: normal;
+        font-weight: 200;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url('assets/fonts/Montserrat-VariableFont_wght.woff2');
+        font-style: normal;
+        font-weight: 300;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url('assets/fonts/Montserrat-VariableFont_wght.woff2');
+        font-style: normal;
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url('assets/fonts/Montserrat-VariableFont_wght.woff2');
+        font-style: normal;
+        font-weight: 500;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url('assets/fonts/Montserrat-VariableFont_wght.woff2');
+        font-style: normal;
+        font-weight: 600;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url('assets/fonts/Montserrat-VariableFont_wght.woff2');
+        font-style: normal;
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url('assets/fonts/Montserrat-VariableFont_wght.woff2');
+        font-style: normal;
+        font-weight: 800;
+      }
+      body {
+        font-family: 'Montserrat', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        color: rgb( 10,0,120);
+      }
+      a {
+        text-decoration: underline;
+      }
+      .preview {
+        background-color: rgb(204,0,120);
+        color: white;
+      }
+    </style>
+  </head>
+  <body class="relative pt-8">
+    <div class="preview absolute -top-24 -left-24 font-bold text-xl w-48 h-48 transform -rotate-45 flex flex-col items-center justify-end">
+      PREVIEW
+    </div>
+    <main  class="flex flex-col w-full items-center relative">
+      <h1 class="text-3xl font-bold">Wide Angle Analytics - Public API</h1>
+      <details class="text-normal w-11/12 max-w-3xl" open>
+        <summary class="font-bold">About</summary>
+        <p class="my-4">Wide Angle Analytics is a privacy-focused web analytics that puts you in control. Wide Angle Analytics simplifies collecting, analyzing, and using data to reach business decisions and uncover actionable insights. Data collection and analytics should be creating the potential for value and protecting the business, not hurting it. Wide Angle Analytics respects users' privacy by not collecting personal data by default, in strict compliance with GDPR.</p>
+        <p class="my-4">Whether you are a Founder, growing Team or established Business, we have you covered. Strict privacy and GDPR compliance. Professional support: Phone, Email, and Live chat same-day support. Analyze up to 40 websites. Process up to 10M events per month. Custom domains. Custom actions. Share with up to 100 users. Easy user management with permissions and access control. Data retention forever! Integration with popular publishing platforms.</p>
+        <p class="my-4"><a href="https://wideangle.co?ref=waa-api-docs">Start tracking your website traffic.</a></p>
+      </details>
+      <div class="flex-1 w-11/12 max-w-screen-xl" id="swagger-docs"></div>
+      <footer class="text-xs mt-16 mb-4 w-full text-center">
+        <div>This site is hosted on GitHub. Please see relevant <a href="https://docs.github.com/en/site-policy/privacy-policies">Privacy Policy</a> for details. The content of this website controlled by <a href="https://inputobjects.eu/imprint">Input Objects GmbH</a>.</div>
+      </footer>
+    </main>
+    <script src="swagger/swagger-ui-bundle.js" crossorigin></script>
+    <script src="swagger/swagger-ui-standalone-preset.js" crossorigin></script>
+    <script>
+      window.onload = () => {
+        window.ui = SwaggerUIBundle({
+          url: 'spec/openapi.yaml',
+          dom_id: '#swagger-docs'
+        });
+      };
+    </script>
+</body>
+</html>
