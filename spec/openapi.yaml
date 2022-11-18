@@ -1,0 +1,238 @@
+openapi: 3.0.3
+info:
+  title: Wide Angle Analytics
+  description: |-
+    Wide Angle Analytics Public Events API
+  termsOfService: https://wideangle.co/policy/terms
+  contact:
+    email: "developers@wideangle.co"
+  version: 0.0.1
+externalDocs:
+  description: |-
+    Find out more about Wide Angle Analytics
+  url: https://wideangle.co/documentation
+servers:
+  - url: https://wideangle.co/public/api/v1
+  - url: https://sandbox.wideangle.co/public/api/v1
+tags:
+  - name: events
+    description: Web Events API
+paths:
+  /events/site/{site}/event/{eventType}:
+    post:
+      tags:
+        - events
+      summary: Record Events
+      description: |-
+        Record events captured on the client side. Alternatively, generate custom events based on arbitrary action.
+      operationId: captureEvents
+      parameters:
+        - name: site
+          in: path
+          description: Site ID
+          required: true
+          schema:
+            type: string
+            example: A26EG3B9ACA8DF4243
+        - name: eventType
+          in: path
+          description: Event Type
+          required: true
+          schema:
+            $ref: '#/components/schemas/EventType'
+      requestBody:
+        description: Capture an event
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+        required: true
+      responses:
+        '200':
+          description: |-
+            Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '401':
+          description: |-
+            Unauthorized. Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: |-
+            Forbidden. Site settings do not permit given event type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: |-
+            Not Found. Make sure to use recognized event type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '405':
+          description: |-
+            Invalid request. Your request does not meet prescribed schema.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - ApiKeyHeader: []
+components:
+  schemas:
+    Event:
+      type: object
+      required:
+        - origin
+        - url
+        - timestamp
+      properties:
+        customerId:
+          type: string
+          example: "john@example.com"
+        trackingId:
+          type: string
+        origin:
+          type: string
+          format: url
+          example: "https://example.com"
+        referrer:
+          type: string
+        url:
+          type: string
+          format: url
+          example: "https://example.com/blog/post"
+        remoteIp:
+          type: string
+          format: "IPv4"
+          example: "83.135.250.18"
+        timestamp:
+          type: string
+          format: date-time
+          example: '2022-10-23 14:52:41.031'
+          description: "Time of the event, assumed to be in UTC."
+        tzOffset:
+          type: number
+          format: int32
+          example: -60
+          description: "Client timezone offset."
+          default: 0
+        viewPort:
+          $ref: '#/components/schemas/ViewPort'
+        parameters:
+          $ref: '#/components/schemas/Parameter'
+        userAgent:
+          anyOf:
+          - $ref: '#/components/schemas/ParsedUserAgent'
+          - $ref: '#/components/schemas/RawUserAgent'
+          discriminator:
+            propertyName: agentType
+            mapping:
+              raw: '#/components/schemas/RawUserAgent'
+              parsed: '#/components/schemas/ParsedUserAgent'
+    UserAgent:
+      type: object
+      required:
+        - agentType
+      properties:
+        agentType:
+          type: string
+          enum:
+            - parsed
+            - raw
+    RawUserAgent:
+      allOf:
+      - $ref: '#/components/schemas/UserAgent'
+      - type: object
+        properties:
+          value:
+            type: string
+            example: |-
+              User-Agent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.0.0 Mobile Safari/537.36
+    ParsedUserAgent:
+      allOf:
+      - $ref: '#/components/schemas/UserAgent'
+      - type: object
+        properties:
+          browser:
+            type: string
+            example: Firefox
+          opeatingSystem:
+            type: string
+            example: Windows
+          device:
+            type: string
+            enum:
+              - Desktop
+              - Tablet
+              - Laptop
+              - Smartphone
+              - Watch
+              - SmartTV
+              - Console
+              - Bot
+              - Unknown
+            example: Tablet
+    ViewPort:
+      type: object
+      required:
+        - width
+        - height
+      properties:
+        width:
+          type: integer
+          example: 1920
+        height:
+          type: integer
+          example: 1080
+    EventType:
+      type: string
+      enum:
+        - pageview
+        - pageleave
+        - click
+        - download
+        - action
+    Parameter:
+      type: object
+      additionalProperties:
+        type: string
+      example:
+            utm_campaign: ads-nov-2022
+            utm_source: twitter
+            utm_media: social
+            utm_content: https://twitter.com/FromWideAngle/status/1592893022001242117
+            name: trial-intent
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+    ApiErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+  requestBodies:
+    Event:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Event'
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: Authorization
