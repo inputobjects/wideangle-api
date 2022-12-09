@@ -151,7 +151,7 @@ components:
         id:
           type: string
           format: "UUID"
-          decription: "Unique identifier of the location. Two different locations must not share the same ID"
+          description: "Unique identifier of the location. Two different locations must not share the same ID"
           example: "5f094940-77d4-11ed-88fb-17eeac7ec1c1"
         country:
           type: string
