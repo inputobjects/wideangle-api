@@ -6,7 +6,7 @@ info:
   termsOfService: https://wideangle.co/policy/terms
   contact:
     email: "developers@wideangle.co"
-  version: 0.0.2
+  version: 0.0.3
 externalDocs:
   description: |-
     Find out more about Wide Angle Analytics
@@ -110,7 +110,9 @@ components:
           format: url
           example: "https://example.com/blog/post"
         remote:
-          $ref: '#/components/schemas/RemoteIp'
+          anyOf:
+            - $ref: '#/components/schemas/RemoteIp'
+            - $ref: '#/components/schemas/RemoteLocation'
         timestamp:
           type: string
           format: date-time
@@ -139,6 +141,26 @@ components:
           type: string
           format: "IPv4"
           example: "181.31.32.12"
+    RemoteLocation:
+      type: object
+      required:
+        - country
+        - region
+        - id
+      properties:
+        id:
+          type: string
+          format: "UUID"
+          description: "Unique identifier of the location. Two different locations must not share the same ID"
+          example: "5f094940-77d4-11ed-88fb-17eeac7ec1c1"
+        country:
+          type: string
+          description: Country ISO code [ISO 3166-1]
+          example: "DE"
+        region:
+          type: string
+          description: Region ISO code [ISO 3166-2]
+          example: "BE"
     RawUserAgent:
       type: string
       example: |-
