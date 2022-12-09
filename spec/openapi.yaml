@@ -6,7 +6,7 @@ info:
   termsOfService: https://wideangle.co/policy/terms
   contact:
     email: "developers@wideangle.co"
-  version: 0.0.1
+  version: 0.0.2
 externalDocs:
   description: |-
     Find out more about Wide Angle Analytics
@@ -18,7 +18,7 @@ tags:
   - name: events
     description: Web Events API
 paths:
-  /events/site/{site}/event/{eventType}:
+  /events/site/{site}:
     post:
       tags:
         - events
@@ -34,12 +34,6 @@ paths:
           schema:
             type: string
             example: A26EG3B9ACA8DF4243
-        - name: eventType
-          in: path
-          description: Event Type
-          required: true
-          schema:
-            $ref: '#/components/schemas/EventType'
       requestBody:
         description: Capture an event
         content:
@@ -48,13 +42,16 @@ paths:
               $ref: '#/components/schemas/Event'
         required: true
       responses:
-        '200':
+        '204':
           description: |-
             Successful operation
+        '400':
+          description: |-
+            Invalid request. Your request does not match the schema.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiErrorResponse'
         '401':
           description: |-
             Unauthorized. Invalid API key.
@@ -76,9 +73,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        '405':
+        '500':
           description: |-
-            Invalid request. Your request does not meet prescribed schema.
+            Fatal Error.
           content:
             application/json:
               schema:
@@ -99,6 +96,9 @@ components:
           example: "john@example.com"
         trackingId:
           type: string
+        eventType:
+          required: true
+          $ref: '#/components/schemas/EventType'
         origin:
           type: string
           format: url
@@ -109,10 +109,8 @@ components:
           type: string
           format: url
           example: "https://example.com/blog/post"
-        remoteIp:
-          type: string
-          format: "IPv4"
-          example: "83.135.250.18"
+        remote:
+          $ref: '#/components/schemas/RemoteIp'
         timestamp:
           type: string
           format: date-time
@@ -132,54 +130,34 @@ components:
           anyOf:
           - $ref: '#/components/schemas/ParsedUserAgent'
           - $ref: '#/components/schemas/RawUserAgent'
-          discriminator:
-            propertyName: agentType
-            mapping:
-              raw: '#/components/schemas/RawUserAgent'
-              parsed: '#/components/schemas/ParsedUserAgent'
-    UserAgent:
+    RemoteIp:
       type: object
       required:
-        - agentType
+        - ip
       properties:
-        agentType:
+        ip:
+          type: string
+          format: "IPv4"
+          example: "181.31.32.12"
+    RawUserAgent:
+      type: string
+      example: |-
+        User-Agent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.0.0 Mobile Safari/537.36
+    ParsedUserAgent:
+      type: object
+      properties:
+        base:
+          type: string
+          example: 'Firefox;v=96'
+        platform:
+          type: string
+          example: Windows
+        mobile:
           type: string
           enum:
-            - parsed
-            - raw
-    RawUserAgent:
-      allOf:
-      - $ref: '#/components/schemas/UserAgent'
-      - type: object
-        properties:
-          value:
-            type: string
-            example: |-
-              User-Agent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.0.0 Mobile Safari/537.36
-    ParsedUserAgent:
-      allOf:
-      - $ref: '#/components/schemas/UserAgent'
-      - type: object
-        properties:
-          browser:
-            type: string
-            example: Firefox
-          opeatingSystem:
-            type: string
-            example: Windows
-          device:
-            type: string
-            enum:
-              - Desktop
-              - Tablet
-              - Laptop
-              - Smartphone
-              - Watch
-              - SmartTV
-              - Console
-              - Bot
-              - Unknown
-            example: Tablet
+            - '?0'
+            - '?1'
+          example: '?0'
     ViewPort:
       type: object
       required:
@@ -210,16 +188,6 @@ components:
             utm_media: social
             utm_content: https://twitter.com/FromWideAngle/status/1592893022001242117
             name: trial-intent
-    ApiResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        type:
-          type: string
-        message:
-          type: string
     ApiErrorResponse:
       type: object
       properties:
