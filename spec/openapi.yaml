@@ -6,7 +6,7 @@ info:
   termsOfService: https://wideangle.co/policy/terms
   contact:
     email: "developers@wideangle.co"
-  version: 0.0.3
+  version: 1.0.0
 externalDocs:
   description: |-
     Find out more about Wide Angle Analytics
