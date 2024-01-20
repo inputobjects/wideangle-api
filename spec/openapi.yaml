@@ -13,7 +13,6 @@ externalDocs:
   url: https://wideangle.co/documentation
 servers:
   - url: https://wideangle.co/public/api/v1
-  - url: https://sandbox.wideangle.co/public/api/v1
 tags:
   - name: events
     description: Web Events API
