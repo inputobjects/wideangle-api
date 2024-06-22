@@ -6,7 +6,7 @@ info:
   termsOfService: https://wideangle.co/policy/terms
   contact:
     email: "developers@wideangle.co"
-  version: 1.0.0
+  version: 1.1.0
 externalDocs:
   description: |-
     Find out more about Wide Angle Analytics
@@ -127,6 +127,8 @@ components:
           $ref: '#/components/schemas/ViewPort'
         parameters:
           $ref: '#/components/schemas/Parameter'
+        values:
+          $ref: '#/components/schemas/Value'
         userAgent:
           anyOf:
           - $ref: '#/components/schemas/ParsedUserAgent'
@@ -199,6 +201,7 @@ components:
         - click
         - download
         - action
+        - values
     Parameter:
       type: object
       additionalProperties:
@@ -209,6 +212,15 @@ components:
             utm_media: social
             utm_content: https://twitter.com/FromWideAngle/status/1592893022001242117
             name: trial-intent
+    Value:
+      type: object
+      additionalProperties:
+        type: double
+      example:
+            item1: 10.02
+            item2: 33.12
+            total: 43.14
+            attempt: 3
     ApiErrorResponse:
       type: object
       properties:
